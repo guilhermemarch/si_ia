@@ -1,8 +1,34 @@
-# SI - Soluções Imobiliárias (IA)
+# SI - IA
 
-Microsserviço de chatbot. FastAPI + Groq. Recebe contexto do backend e devolve a resposta.
+Chatbot do CRM. FastAPI + NVIDIA API.
 
-Não acessa banco de dados. O frontend não chama este serviço direto.
+**Repositório:** [github.com/guilhermemarch/si_ia](https://github.com/guilhermemarch/si_ia)
+
+## Repositórios relacionados
+
+| Serviço | Repositório |
+|---------|-------------|
+| Frontend | [github.com/guilhermemarch/si_frontend](https://github.com/guilhermemarch/si_frontend) |
+| Backend | [github.com/guilhermemarch/si_backend](https://github.com/guilhermemarch/si_backend) |
+| IA | [github.com/guilhermemarch/si_ia](https://github.com/guilhermemarch/si_ia) |
+
+Não acessa banco de dados. O backend envia contexto (leads, imóveis, resumo) e este serviço devolve a resposta.
+
+## Fluxo
+
+```mermaid
+sequenceDiagram
+  participant FE as Frontend
+  participant BE as Backend
+  participant IA as FastAPI
+  participant NV as NVIDIA
+  FE->>BE: POST /chatbot/conversa
+  BE->>IA: mensagem + contexto
+  IA->>NV: prompt
+  NV-->>IA: resposta
+  IA-->>BE: texto
+  BE-->>FE: resposta
+```
 
 ## Configuração
 
@@ -11,14 +37,14 @@ cp .env.example .env
 ```
 
 ```env
-GROQ_API_KEY=
-GROQ_MODEL=llama-3.1-8b-instant
+NVIDIA_API_KEY=
+NVIDIA_MODEL=google/gemma-4-31b-it
 PORT=8000
 ```
 
-Sem `GROQ_API_KEY`, o serviço sobe mas o chat retorna aviso de chave ausente.
+Sem `NVIDIA_API_KEY`, o serviço sobe mas o chat avisa que a chave não foi configurada.
 
-## Rodar localmente
+## Rodar
 
 ```bash
 python3 -m venv .venv
@@ -29,8 +55,10 @@ uvicorn app.main:app --reload --port 8000
 
 ## Rotas
 
-- `GET /saude` — health check
-- `POST /chat/conversa` — mensagem + contexto (leads, imóveis, resumo)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/saude` | Health check |
+| POST | `/chat/conversa` | Mensagem + contexto |
 
 ## Docker
 
