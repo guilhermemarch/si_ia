@@ -9,4 +9,4 @@ app.include_router(chat.router)
 
 @app.get("/")
 def raiz():
-    return {"mensagem": "Microsservico de IA do SI"}
+    return {"mensagem": "Microsserviço de IA da SI"}
