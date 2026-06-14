@@ -14,6 +14,16 @@ Chatbot do CRM. FastAPI + NVIDIA API.
 
 Não acessa banco de dados. O backend envia contexto (leads, imóveis, resumo) e este serviço devolve a resposta.
 
+## Tecnologias e versões
+
+| Tecnologia | Versão recomendada |
+|------------|--------------------|
+| Python | 3.12+ |
+| FastAPI | 0.115.6 |
+| Uvicorn | 0.34.0 |
+| Pydantic | 2.10.4 |
+| httpx | 0.28.1 |
+
 ## Fluxo
 
 ```mermaid
@@ -43,6 +53,8 @@ PORT=8000
 ```
 
 Sem `NVIDIA_API_KEY`, o serviço sobe mas o chat avisa que a chave não foi configurada.
+
+Este serviço não é chamado diretamente pelo frontend. O fluxo é: frontend -> backend NestJS -> IA FastAPI -> NVIDIA API.
 
 ## Rodar
 
